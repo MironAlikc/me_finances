@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:me_finances/presentation/cubits/login_cubit/login_cubit.dart';
 import 'package:me_finances/presentation/cubits/resset_password_cubit/resset_password_cubit.dart';
 import 'package:me_finances/presentation/screen/home_screen.dart';
+import 'package:me_finances/presentation/widgets/custom_alert_dialog_widget.dart';
 import 'package:me_finances/presentation/widgets/custom_text_field_widget.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -86,7 +87,7 @@ class LoginScreen extends StatelessWidget {
               onPressed: () {
                 showDialog(
                   context: context,
-                  builder: (context) => const CustomAlertDialog(),
+                  builder: (context) => const CustomAlertDialogWidget(),
                 );
               },
               child: const Text(
@@ -100,62 +101,6 @@ class LoginScreen extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class CustomAlertDialog extends StatelessWidget {
-  const CustomAlertDialog({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final controller = TextEditingController();
-    return AlertDialog(
-      content: SizedBox(
-        height: 200,
-        width: 100,
-        child: Column(
-          children: [
-            TextField(
-              controller: controller,
-              decoration: const InputDecoration(hintText: 'Email'),
-            ),
-            BlocBuilder<RessetPasswordCubit, RessetPasswordState>(
-              builder: (context, state) {
-                if (state is RessetPasswordLoading) {
-                  return const CircularProgressIndicator();
-                }
-                if (state is RessetPasswordError) {
-                  return Text(state.errorText);
-                }
-                if (state is RessetPasswordSuccess) {
-                  return ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('Close'),
-                  );
-                }
-                return ElevatedButton(
-                  onPressed: () {
-                    BlocProvider.of<RessetPasswordCubit>(context)
-                        .ressetPasswod(email: controller.text);
-                  },
-                  child: const Text('Reset'),
-                );
-              },
-            )
-          ],
-        ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: const Text('Close'),
-        )
-      ],
     );
   }
 }
