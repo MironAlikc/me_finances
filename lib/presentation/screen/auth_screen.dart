@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:me_finances/presentation/cubits/auth_cubit/auth_cubit.dart';
 import 'package:me_finances/presentation/screen/home_screen.dart';
 import 'package:me_finances/presentation/screen/login_screen.dart';
+import 'package:me_finances/presentation/screen/registration_screen.dart';
 import 'package:me_finances/presentation/widgets/custom_text_field_widget.dart';
 
 class AuthScreen extends StatelessWidget {
@@ -61,7 +62,7 @@ class AuthScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const HomeScreen(),
+                      builder: (context) => const RegistrationScreen(),
                     ),
                   );
                 }
