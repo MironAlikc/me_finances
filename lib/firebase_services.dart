@@ -35,9 +35,41 @@ class FirebaseServices {
   Future<void> createUserData({
     required UserDataModel model,
   }) async {
-    final doc = store.collection('users').doc(model.id);
+    final doc = store.collection('users').doc(
+          model.id,
+        );
     await doc.set(
       model.toJson(),
     );
   }
+
+  Stream<List<UserDataModel>> getUserData(String id) {
+    final result = store.collection('users').snapshots().map(
+          (collection) => collection.docs.where((doc) => doc.id == id).map(
+            (doc) {
+              return UserDataModel.fromJson(
+                doc.data(),
+              );
+            },
+          ).toList(),
+        );
+    return result;
+  }
+
+  // Stream<List<UserDataModel>> getUserData(String id) {
+  //   final resutl = store.collection('users').snapshots().map(
+  //         (colletion) => colletion.docs.map(
+  //           (doc) {
+  //             if (doc.id == id) {
+  //               return UserDataModel.fromJson(
+  //                 doc.data(),
+  //               );
+  //             } else {
+  //               return UserDataModel();
+  //             }
+  //           },
+  //         ).toList(),
+  //       );
+  //   return resutl;
+  // }
 }

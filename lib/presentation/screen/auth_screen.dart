@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:me_finances/presentation/cubits/auth_cubit/auth_cubit.dart';
-import 'package:me_finances/presentation/screen/home_screen.dart';
+
 import 'package:me_finances/presentation/screen/login_screen.dart';
 import 'package:me_finances/presentation/screen/registration_screen.dart';
 import 'package:me_finances/presentation/widgets/custom_text_field_widget.dart';
@@ -38,11 +36,16 @@ class AuthScreen extends StatelessWidget {
                   backgroundColor: Colors.blue,
                 ),
                 onPressed: () {
-                  BlocProvider.of<AuthCubit>(context).createAccount(
-                    email: controllerEmail.text,
-                    password: controllerPassword.text,
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RegistrationScreen(
+                        email: controllerEmail.text,
+                        password: controllerPassword.text,
+                      ),
+                    ),
                   );
-                  // FirebaseServices().createAccout(
+                  // BlocProvider.of<AuthCubit>(context).createAccount(
                   //   email: controllerEmail.text,
                   //   password: controllerPassword.text,
                   // );
@@ -56,39 +59,39 @@ class AuthScreen extends StatelessWidget {
                 ),
               ),
             ),
-            BlocConsumer<AuthCubit, AuthState>(
-              listener: (context, state) {
-                if (state is AuthSuccess) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const RegistrationScreen(),
-                    ),
-                  );
-                }
-              },
-              builder: (context, state) {
-                if (state is AuthLoading) {
-                  return Image.asset('assets/gif/loading.gif');
-                }
-                if (state is AuthError) {
-                  return Text(
-                    state.errorText,
-                    style: const TextStyle(
-                      fontSize: 25,
-                      color: Colors.red,
-                    ),
-                  );
-                }
-                return const SizedBox();
-              },
-            ),
+            // BlocConsumer<AuthCubit, AuthState>(
+            //   listener: (context, state) {
+            //     if (state is AuthSuccess) {
+            //       Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //           builder: (context) => const RegistrationScreen(),
+            //         ),
+            //       );
+            //     }
+            //   },
+            //   builder: (context, state) {
+            //     if (state is AuthLoading) {
+            //       return Image.asset('assets/gif/loading.gif');
+            //     }
+            //     if (state is AuthError) {
+            //       return Text(
+            //         state.errorText,
+            //         style: const TextStyle(
+            //           fontSize: 25,
+            //           color: Colors.red,
+            //         ),
+            //       );
+            //     }
+            //     return const SizedBox();
+            //   },
+            // ),
             TextButton(
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const LoginScreen(),
+                    builder: (context) => LoginScreen(),
                   ),
                 );
               },
